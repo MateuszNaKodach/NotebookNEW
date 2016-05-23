@@ -22,6 +22,7 @@ public class NoteEditFragment extends Fragment {
 
     private static final String MODIFIER_CATEOGRY = "pl.nowakprojects.notebook.ModifiedCategory";
 
+    private Boolean newNote=false;
     private ImageButton noteCatButton;
     private Note.Category savedButtonCateogry;
     private AlertDialog categoryDialogObject, confirmDialogObject;
@@ -38,6 +39,12 @@ public class NoteEditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Bundle bundle = this.getArguments();
+
+        if(bundle!=null){
+            newNote = bundle.getBoolean(NoteDetailActivity.NEW_NOTE_EXTRA, false);
+        }
+
         if (savedInstanceState != null) {
             savedButtonCateogry = (Note.Category) savedInstanceState.get(MODIFIER_CATEOGRY);
         }
@@ -50,8 +57,8 @@ public class NoteEditFragment extends Fragment {
         Button savedButton = (Button) framgentLayout.findViewById(R.id.saveNote);
 
         Intent intent = getActivity().getIntent();
-        title.setText(intent.getExtras().getString(MainActivity.NOTE_TITLE_EXTRA,""));
-        message.setText(intent.getExtras().getString(MainActivity.NOTE_MESSAGE_EXTRA,""));
+        title.setText(intent.getExtras().getString(MainActivity.NOTE_TITLE_EXTRA, ""));
+        message.setText(intent.getExtras().getString(MainActivity.NOTE_MESSAGE_EXTRA, ""));
 
         //we came from our Bundle (saveInstance)
         if (savedButtonCateogry != null) {

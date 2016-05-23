@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 public class NoteDetailActivity extends AppCompatActivity {
 
-    public static final String NEW_NOTE_EXTRA = "pl.nowakprojects.notebook.NewNote"
+    public static final String NEW_NOTE_EXTRA = "pl.nowakprojects.notebook.NewNote";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class NoteDetailActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean(NEW_NOTE_EXTRA, true);
                 noteCreateFragment.setArguments(bundle);
-                
+
                 fragmentTransaction.add(R.id.note_container, noteCreateFragment, "NOTE_CREATE_FRAGMENT");
                 break;
             }

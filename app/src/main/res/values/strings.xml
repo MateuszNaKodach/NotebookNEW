@@ -10,5 +10,8 @@
     <string name="edit_menu">Edit</string>
     <string name="action_add_note">Add Note</string>
     <string name="noteCreateFragmentTitle">Create Note</string>
+    <string name="input_note_title_here">Input note title here.</string>
+    <string name="save_note">SAVE NOTE</string>
+    <string name="input_note_message_here">Input note message here.</string>
 
 </resources>

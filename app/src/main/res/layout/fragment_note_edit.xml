@@ -39,7 +39,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:minLines="1"
             android:id="@+id/editNoteTitle"
-            android:hint="Input note title here."
+            android:hint="@string/input_note_title_here"
             android:inputType="text"
             />
     </ScrollView>
@@ -66,6 +66,7 @@
             android:textColor="@android:color/black"
             android:inputType="textMultiLine"
             android:gravity="top"
+            android:hint="@string/input_note_message_here"
             android:background="@null"
             />
     </ScrollView>
@@ -73,7 +74,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SAVE NOTE"
+        android:text="@string/save_note"
         android:id="@+id/saveNote"
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@id/noteMessageScrollView"/>
