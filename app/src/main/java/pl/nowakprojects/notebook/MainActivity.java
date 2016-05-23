@@ -1,11 +1,16 @@
 package pl.nowakprojects.notebook;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        loadPreferences();
     }
 
     @Override
@@ -44,14 +50,37 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, AppPreferences.class);
+            startActivity(intent);
             return true;
         } else if (id == R.id.action_add_note) {
             Intent intent = new Intent(getApplicationContext(), NoteDetailActivity.class);
             intent.putExtra(MainActivity.NOTE_FRAGMENT_TO_LOAD_EXTRA, FragmentToLaunch.CREATE);
             startActivity(intent);
             return true;
-        }
+        } else if (id == R.id.action_github) {
+            Uri githubUri = Uri.parse("https://github.com/nowakprojects/Notebook");
+        Intent intent = new Intent(Intent.ACTION_VIEW,githubUri);
+        startActivity(intent);
+        return true;
+    }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void loadPreferences(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        boolean isBackGroundDark = sharedPreferences.getBoolean("background_color_dark", false);
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainActivityLayout);
+        if(isBackGroundDark){
+            mainLayout.setBackgroundColor(Color.parseColor("#3c3f41"));
+        }else{
+            mainLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
+
+        String notebookTitle = sharedPreferences.getString("title","NOTEBook");
+        setTitle(notebookTitle);
+
     }
 }

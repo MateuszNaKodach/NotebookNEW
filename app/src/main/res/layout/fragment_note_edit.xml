@@ -17,7 +17,6 @@
         android:src="@drawable/p"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginEnd="15dp"
         />
 
     <ScrollView
@@ -34,6 +33,7 @@
         android:layout_marginTop="15dp">
 
         <EditText
+            android:layout_marginLeft="45dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
