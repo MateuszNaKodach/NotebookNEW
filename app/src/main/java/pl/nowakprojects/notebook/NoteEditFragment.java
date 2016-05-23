@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import android.widget.ImageButton;
  */
 public class NoteEditFragment extends Fragment {
 
+    private static final String MODIFIER_CATEOGRY = "pl.nowakprojects.notebook.ModifiedCategory";
+
     private ImageButton noteCatButton;
     private Note.Category savedButtonCateogry;
     private AlertDialog categoryDialogObject, confirmDialogObject;
@@ -30,9 +33,14 @@ public class NoteEditFragment extends Fragment {
     }
 
 
+    //execute once we change orientation
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if (savedInstanceState != null) {
+            savedButtonCateogry = (Note.Category) savedInstanceState.get(MODIFIER_CATEOGRY);
+        }
 
         View framgentLayout = inflater.inflate(R.layout.fragment_note_edit, container, false);
 
@@ -42,10 +50,18 @@ public class NoteEditFragment extends Fragment {
         Button savedButton = (Button) framgentLayout.findViewById(R.id.saveNote);
 
         Intent intent = getActivity().getIntent();
-        title.setText(intent.getExtras().getString(MainActivity.NOTE_TITLE_EXTRA));
-        message.setText(intent.getExtras().getString(MainActivity.NOTE_MESSAGE_EXTRA));
-        Note.Category noteCat = (Note.Category) intent.getExtras().getSerializable(MainActivity.NOTE_CATEGORY_EXTRA);
-        noteCatButton.setImageResource(Note.categoryToDrawable(noteCat));
+        title.setText(intent.getExtras().getString(MainActivity.NOTE_TITLE_EXTRA,""));
+        message.setText(intent.getExtras().getString(MainActivity.NOTE_MESSAGE_EXTRA,""));
+
+        //we came from our Bundle (saveInstance)
+        if (savedButtonCateogry != null) {
+            noteCatButton.setImageResource(Note.categoryToDrawable(savedButtonCateogry));
+            //otherwise we came from our list fragment
+        } else if (!newNote){
+            Note.Category noteCat = (Note.Category) intent.getExtras().getSerializable(MainActivity.NOTE_CATEGORY_EXTRA);
+            noteCatButton.setImageResource(Note.categoryToDrawable(noteCat));
+            savedButtonCateogry = noteCat;
+        }
 
         // Inflate the layout for this fragment
         buildCategoryDialog();
@@ -68,7 +84,13 @@ public class NoteEditFragment extends Fragment {
         return framgentLayout;
     }
 
-    public void buildCategoryDialog(){
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putSerializable(MODIFIER_CATEOGRY, savedButtonCateogry);
+    }
+
+    public void buildCategoryDialog() {
         final String[] categories = new String[]{"PERSONAL", "TECHNICAL", "QUOTE", "FINANCE"};
         AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(getActivity());
         categoryBuilder.setTitle("Choose Note Category");
@@ -76,7 +98,7 @@ public class NoteEditFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                switch(which){
+                switch (which) {
                     case 0:
                         savedButtonCateogry = Note.Category.PERSONAL;
                         noteCatButton.setImageResource(R.drawable.p);
@@ -102,7 +124,7 @@ public class NoteEditFragment extends Fragment {
         categoryDialogObject = categoryBuilder.create();
     }
 
-    public void buildConfirmDialog(){
+    public void buildConfirmDialog() {
         AlertDialog.Builder confirmBuilder = new AlertDialog.Builder(getActivity());
         confirmBuilder.setTitle("Are you sure?");
         confirmBuilder.setMessage("Are you sure you want to save the note?");
@@ -110,6 +132,7 @@ public class NoteEditFragment extends Fragment {
         confirmBuilder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Log.d("SAVED NOTE", "Note was saved");
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
@@ -122,6 +145,7 @@ public class NoteEditFragment extends Fragment {
             }
         });
 
+        confirmDialogObject = confirmBuilder.create();
     }
 
 }

@@ -1,5 +1,6 @@
 package pl.nowakprojects.notebook;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +14,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String NOTE_MESSAGE_EXTRA = "pl.nowakprojects.notebook.message";
     public static final String NOTE_CATEGORY_EXTRA = "pl.nowakprojects.notebook.category";
     public static final String NOTE_FRAGMENT_TO_LOAD_EXTRA = "pl.nowakprojects.notebook.Fragment_To_Launch";
-    public enum FragmentToLaunch{VIEW, EDIT};
+
+    public enum FragmentToLaunch {VIEW, EDIT, CREATE}
+
+    ;
 
 
     @Override
@@ -40,6 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.action_add_note) {
+            Intent intent = new Intent(getApplicationContext(), NoteDetailActivity.class);
+            intent.putExtra(MainActivity.NOTE_FRAGMENT_TO_LOAD_EXTRA, FragmentToLaunch.CREATE);
+            startActivity(intent);
             return true;
         }
 

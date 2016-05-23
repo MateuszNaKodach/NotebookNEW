@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/noteScrollView"
-        android:layout_below="@+id/editNoteButton"
+        android:layout_alignEnd="@+id/editNoteButton"
         android:layout_centerHorizontal="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
@@ -40,7 +40,8 @@
             android:minLines="1"
             android:id="@+id/editNoteTitle"
             android:hint="Input note title here."
-            android:inputType="text" />
+            android:inputType="text"
+            />
     </ScrollView>
 
 
@@ -50,7 +51,7 @@
         android:id="@+id/noteMessageScrollView"
         android:layout_below="@+id/noteScrollView"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentEnd="true"
+       android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="15dp"
         android:layout_above="@+id/saveNote">

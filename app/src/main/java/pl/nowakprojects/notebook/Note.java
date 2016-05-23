@@ -8,7 +8,7 @@ public class Note {
     private long noteId, dateCreatedMilli;
     private Category category;
 
-    public enum Category{PERSONAL, TECHNICAL, QUOTE, FINANCE}
+    public enum Category {PERSONAL, TECHNICAL, QUOTE, FINANCE}
 
     public Note(String title, String message, Category category) {
         this.title = title;
@@ -18,7 +18,7 @@ public class Note {
         this.category = category;
     }
 
-    public Note(String title, String message, long dateCreatedMilli,long noteId, Category category) {
+    public Note(String title, String message, long dateCreatedMilli, long noteId, Category category) {
         this.title = title;
         this.message = message;
         this.noteId = noteId;
@@ -77,12 +77,12 @@ public class Note {
                 '}';
     }
 
-    public int getAssocistedDrawable(){
+    public int getAssocistedDrawable() {
         return categoryToDrawable(category);
     }
 
-    public static int categoryToDrawable(Category noteCategory){
-        switch(noteCategory){
+    public static int categoryToDrawable(Category noteCategory) {
+        switch (noteCategory) {
             case PERSONAL:
                 return R.drawable.p;
             case TECHNICAL:
