@@ -18,7 +18,7 @@ public class Note {
         this.category = category;
     }
 
-    public Note(String title, String message, long dateCreatedMilli, long noteId, Category category) {
+    public Note(String title, String message, Category category, long noteId, long dateCreatedMilli) {
         this.title = title;
         this.message = message;
         this.noteId = noteId;

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 
 /**
@@ -22,7 +23,9 @@ public class NoteEditFragment extends Fragment {
 
     private static final String MODIFIER_CATEOGRY = "pl.nowakprojects.notebook.ModifiedCategory";
 
+    private long noteID = 0;
     private Boolean newNote=false;
+
     private ImageButton noteCatButton;
     private Note.Category savedButtonCateogry;
     private AlertDialog categoryDialogObject, confirmDialogObject;
@@ -59,6 +62,7 @@ public class NoteEditFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         title.setText(intent.getExtras().getString(MainActivity.NOTE_TITLE_EXTRA, ""));
         message.setText(intent.getExtras().getString(MainActivity.NOTE_MESSAGE_EXTRA, ""));
+        noteID = intent.getExtras().getLong(MainActivity.NOTE_ID_EXTRA, 0);
 
         //we came from our Bundle (saveInstance)
         if (savedButtonCateogry != null) {
@@ -140,6 +144,20 @@ public class NoteEditFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.d("SAVED NOTE", "Note was saved");
+                //if is a new note create in a database
+                NotebookDataBaseAdapter notebookDataBaseAdapter = new NotebookDataBaseAdapter(getActivity().getBaseContext());
+                notebookDataBaseAdapter.open();
+                if(newNote){
+                notebookDataBaseAdapter.createNote(title.getText().toString(),message.getText().toString(),
+                        (savedButtonCateogry)==null?Note.Category.PERSONAL : savedButtonCateogry);
+                    Toast.makeText(getActivity().getBaseContext(),"The new Note was created!",Toast.LENGTH_LONG).show();
+                }else{
+                    // if is a old note, update it in a database
+                    notebookDataBaseAdapter.updateNote(noteID,title.getText().toString(),message.getText().toString(),savedButtonCateogry);
+                }
+
+                notebookDataBaseAdapter.close();
+
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
